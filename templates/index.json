@@ -1,22 +1,40 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
-      "type": "image-banner"
-    },
-    "featured-collection": {
-      "type": "featured-collection",
+      "type": "image-banner",
       "settings": {
-        "featured_collection": "frontpage"
+        "show_div": true,
+        "show_div_2": false
       }
     },
     "list-featured-collection": {
       "type": "featured-list-collection",
       "settings": {
-        "featured_list_collection": []
+        "title": "discover kyokka",
+        "featured_list_collection": [],
+        "collection_range": 4
+      }
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "trending jewellery",
+        "featured_collection": "",
+        "product_range": 4
       }
     },
     "image-gallery": {
-      "type": "image-gallery"
+      "type": "image-gallery",
+      "settings": {}
     }
   },
   "order": [
