@@ -12,6 +12,7 @@
     "hero": {
       "type": "image-banner",
       "settings": {
+        "image_banner": "shopify://shop_images/img_banner_cd5c4184-bfb2-43ce-83b4-8821aeb85b54.png",
         "show_div": true,
         "show_div_2": false
       }
@@ -20,7 +21,12 @@
       "type": "featured-list-collection",
       "settings": {
         "title": "discover kyokka",
-        "featured_list_collection": [],
+        "featured_list_collection": [
+          "necklaces",
+          "everyday-essentials",
+          "luxury",
+          "bracelets"
+        ],
         "collection_range": 4
       }
     },
@@ -28,13 +34,19 @@
       "type": "featured-collection",
       "settings": {
         "title": "trending jewellery",
-        "featured_collection": "",
+        "featured_collection": "frontpage",
         "product_range": 4
       }
     },
     "image-gallery": {
       "type": "image-gallery",
-      "settings": {}
+      "settings": {
+        "image_1": "shopify://shop_images/moonlight_link_necklace-gold.png",
+        "image_2": "shopify://shop_images/img_gal_1.png",
+        "image_3": "shopify://shop_images/img_gal_2.png",
+        "image_4": "shopify://shop_images/monarch_pendant-gold.png",
+        "image_5": "shopify://shop_images/double-tide-necklace-gold.png"
+      }
     }
   },
   "order": [
