@@ -1,0 +1,59 @@
+<section class="pt-40 pb-40">
+  <div class="text-center space-y-5 pb-20">
+    <h4 class="uppercase text-xl ">{{ "general.collection.collection_title" | t }}</h4>
+    <h1 class=" header-font text-6xl uppercase">{{ section.settings.title }}</h1>
+  </div>
+  <div class="flex flex-wrap justify-between w-[90vw] h-auto mx-auto">
+    {% assign featured_collection = collections[section.settings.featured_collection] %}
+
+    {% if featured_collection and featured_collection.products.size > 0 %}
+      {% for product in featured_collection.products limit: section.settings.product_range %}
+        {% render "product-card"
+          , product: product %}
+      {% endfor %}
+    {% else %}
+      <div class="flex flex-wrap gap-y-2 justify-between w-[90vw] h-auto mx-auto">
+        {% for item in (1..4) %}
+          {% render "product-card-placeholder" %}
+        {% endfor %}
+      </div>
+
+
+    {% endif %}
+
+  </div>
+  <div class="text-center  w-[10vw] m-auto font-semibold">
+    <a href="{{ featured_collection.url }}" class="w-full whitespace-nowrap p-3 inline-block border-2 border-[var(--btn-primary)] text-[var(--btn-primary)] hover:bg-[var(--btn-primary-hover)] hover:text-white active:bg-[var(--btn-primary-active)] btn-solid">{{ "general.collection.view" | t }}</a>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Featureed Collection",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "default": "trending jewellery",
+        "label": "Title"
+      }, {
+        "type": "collection",
+        "id": "featured_collection",
+        "label": "Collection"
+      }, {
+        "type": "range",
+        "id": "product_range",
+        "min": 4,
+        "max": 8,
+        "step": 1,
+        "default": 4,
+        "label": "Number of products"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featureed Collection"
+      }
+    ]
+  }
+{% endschema %}

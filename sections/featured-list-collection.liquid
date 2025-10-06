@@ -1,0 +1,64 @@
+<section class="pt-40 ">
+  <div class="text-center space-y-5 pb-20">
+    <h4 class="uppercase text-xl ">{{ "general.collection.list-collection_title" | t }}</h4>
+    <h1 class=" header-font text-6xl uppercase">{{ section.settings.title }}</h1>
+  </div>
+  <div class="flex flex-wrap justify-between w-[90vw] h-auto mx-auto mt-10">
+
+    {% if section.settings.featured_list_collection != blank %}
+      {% for collection in section.settings.featured_list_collection
+        , limit: section.settings.collection_range %}
+        {% if collection.all_products_count > 0 %}
+          {% render "collection-card"
+            , collection: collection
+          %}
+        {% endif %}
+
+      {% endfor %}
+      <div class="text-center  w-[10vw] m-auto font-semibold">
+        <a href="{{ routes.collections_url }}" class="w-full whitespace-nowrap p-3 inline-block border-2 border-[var(--btn-primary)] text-[var(--btn-primary)] hover:bg-[var(--btn-primary-hover)] hover:text-white active:bg-[var(--btn-primary-active)] btn-solid">{{ "general.collection.discover" | t }}</a>
+      </div>
+    {% else %}
+      <div class="flex flex-wrap gap-y-2 justify-between w-[90vw] h-auto mx-auto">
+        {% for item in (1..4) %}
+
+          {% render "featured-list-collection-placeholder" %}
+
+        {% endfor %}
+      </div>
+
+    {% endif %}
+
+  </div>
+
+</section>
+{% schema %}
+  {
+    "name": "Featured List Collection",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "default": "discover kyokka",
+        "label": "Featured collection title"
+      }, {
+        "type": "collection_list",
+        "id": "featured_list_collection",
+        "label": "Choose collections"
+      }, {
+        "type": "range",
+        "id": "collection_range",
+        "min": 4,
+        "max": 4,
+        "step": 1,
+        "default": 4,
+        "label": "Number of products"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured List Collection"
+      }
+    ]
+  }
+{% endschema %}

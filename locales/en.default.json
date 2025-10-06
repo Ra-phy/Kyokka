@@ -1,0 +1,30 @@
+{
+  "general": {
+    "404": {
+      "title": "error",
+      "subtext_html": "Oops! the page you are loooking for does not exist.",
+      "cta-1": "Continue shopping",
+      "cta-2": "Back to homepage"
+    },
+    "cart": {
+      "heading_empty_cart": "Your cart is empty.",
+      "cart": "Your cart",
+      "cta-1": "Continue shopping",
+      "subtotal": "Estimated total",
+      "checkout": "Checkout",
+      "add": "Add to cart"
+    },
+    "collection": {
+      "collection_heading": "trending jewellery",
+      "collection_title": "discover all trends",
+      "list-collection_title": "our everyday pieces",
+      "view": "View all",
+      "discover": "Discover all"
+    },
+    "img": {
+      "follow_paragraph": "Follow us on",
+      "follow_bold": "Kyokka",
+      "follow_slant": "on ig"
+    }
+  }
+}

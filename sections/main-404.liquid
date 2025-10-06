@@ -1,0 +1,37 @@
+<div class="flex flex-col justify-center items-center h-[70vh]">
+  <h1 class="text-center pt-15 -mb-15 md:-mb-25 uppercase text-[var(--heading)] font-semibold text-3xl ">
+    {{ "general.404.title" | t }}
+  </h1>
+  <img
+    src="{{ 'error_404.png' | asset_url  }}"
+    alt="Error 404 image"
+    height="600"
+    width="600">
+  <p class="font-semibold text-2xl py-5 text-center px-10 md:py-0 md:px-0">{{ "general.404.subtext_html" | t }}</p>
+
+  <div class="flex flex-col md:flex-row md:space-x-5 justify-between">
+
+    {% if section.settings.homepage_url == blank %}
+      {% assign homepage = shop.secure_url %}
+    {% else %}
+      {% assign homepage = section.settings.homepage_url %}
+    {% endif %}
+    <a href="{{ routes.all_products_collection_url }}" class="bg-[var(--btn-primary)] hover:bg-[var(--btn-primary-hover)] active:bg-[var(--btn-primary-active)] btn-solid">{{ "general.404.cta-1" | t }}</a>
+
+    <a href="{{ homepage }}" class="border-2 border-[var(--btn-primary)] text-[var(--btn-primary)] hover:bg-[var(--btn-primary-hover)] hover:text-white active:bg-[var(--btn-primary-active)] btn-solid">{{ "general.404.cta-2" | t }}</a>
+
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Main 404",
+    "settings": [
+      {
+        "type": "url",
+        "id": "homepage_url",
+        "label": "Homepage URL"
+      }
+    ]
+  }
+{% endschema %}

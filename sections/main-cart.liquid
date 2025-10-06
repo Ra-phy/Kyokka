@@ -1,0 +1,434 @@
+{% if cart.item_count > 0 %}
+
+  <div class="max-w-[75vw] flex justify-between items-center mx-auto mt-10">
+    <h1 class="text-6xl">
+      {{ "general.cart.cart" | t }} ({{ cart.item_count }})
+    </h1>
+    <a href="{{ routes.all_products_collection_url }}" class="border-2 border-[var(--btn-primary)] text-[var(--btn-primary)] hover:bg-[var(--btn-primary-hover)] hover:text-white active:bg-[var(--btn-primary-active)] btn-solid">{{ "general.cart.cta-1" | t }}</a>
+  </div>
+
+  {% form 'cart'
+    , cart
+    , id: 'cart-form'
+    , class: 'mt-1' %}
+    <div
+      id="cart-root"
+      data-currency="{{ shop.currency }}"
+      class="flex flex-col w-[65vw] m-auto">
+      <div id="cart-items-container" class="bg-white mt-20 border-2 border-gray-100 p-5 rounded-xl shadow-lg">
+
+        {% for item in cart.items %}
+          <div
+            class="flex justify-between items-center not-last:mb-10"
+            id="cart-item-{{ forloop.index }}"
+            data-line="{{ forloop.index }}"
+            data-variant-id="{{ item.variant_id }}">
+
+            <div class="flex space-x-10">
+              <div class="">
+                {% if item.image %}
+                  <img
+                    class="object-cover border border-gray-300 rounded-md h-[7rem] w-[6rem]"
+                    src="{{ item.image |  image_url: width: 600 }}"
+                    alt="{{ item.title | escape }}"
+                    height="70"
+                    width="60">
+                {% else %}
+                  {{ "product-1" | placeholder_svg_tag: "w-30 h-40 object-cover border rounded-md " }}
+                {% endif %}
+              </div>
+
+              <div class="flex flex-col justify-center items-center ">
+                <a href="{{item.url}}" class="inline-block font-semibold text-[var(--btn-primary)]">{{ item.product.title }}</a>
+                <span class="pl-5 font-semibold block">{{ item.variant.title }}</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col justify-center items-center space-y-1 ">
+              <div class="font-semibold">
+                <!-- no styling changed; id added so JS can reference the unit price if needed -->
+                <span id="unit-price-{{ forloop.index }}">{{ item.price | money }}</span>
+              </div>
+
+              <div class="flex justify-center items-center space-x-3 border border-gray-300 rounded-md overflow-hidden">
+                <!-- decrement: data-action + data-line added; role for a11y; classes unchanged -->
+                <div
+                  data-action="decrement"
+                  data-line="{{ forloop.index }}"
+                  role="button"
+                  aria-label="decrease quantity"
+                  class="flex items-center px-2 py-1 bg-[var(--btn-primary)] cursor-pointer text-white">
+                  {% render "icon-minus" %}
+                </div>
+
+                <input
+                  class="w-8 border-none focus:outline-none rounded-md text-center"
+                  type="number"
+                  name="updates[]"
+                  min="1"
+                  value="{{item.quantity}}"
+                  id="updates_{{ forloop.index }}"
+                  data-line="{{ forloop.index }}">
+
+                <!-- increment: data-action + data-line added -->
+                <div
+                  data-action="increment"
+                  data-line="{{ forloop.index }}"
+                  role="button"
+                  aria-label="increase quantity"
+                  class="flex items-center px-2 py-1 bg-[var(--btn-primary)] cursor-pointer text-white">
+                  {% render "icon-plus" %}
+                </div>
+
+              <!-- per-line spinner (hidden by default via Tailwind 'hidden') -->
+              <!-- <div
+  id="spinner-{{ forloop.index }}"
+                class="spinner hidden"
+                aria-hidden="true"></div> -->
+              </div>
+            </div>
+
+            <div class="flex space-x-5">
+              <div class=" font-semibold">
+                <!-- line price: id and class added so JS can update it -->
+                <span id="line-price-{{ forloop.index }}" class="line-price">{{ item.line_price | money }}</span>
+              </div>
+              <div>
+                <!-- keep the original href so fallback works (non-JS). Add data attrs for interception -->
+                <a
+                  href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0"
+                  data-action="delete"
+                  data-line="{{ forloop.index }}"
+                  aria-label="Remove item"
+                  class="">
+                  {% render 'icon-delete' %}
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+      </div>
+
+      <div class="flex flex-col self-end mt-15 w-2/5">
+        <div class="">
+          <h3 class="flex justify-between p-10 bg-white font-bold border border-gray-300 shadow-lg rounded-lg header-font text-3xl">
+            <span class="inline-block">{{ "general.cart.subtotal" | t }}:</span>
+            <!-- subtotal: id added so JS can update it in-place; classes unchanged -->
+            <span id="cart-estimated-total" class="inline-block">{{ cart.total_price | money }}</span>
+          </h3>
+        </div>
+
+        <div class="self-end w-full">
+          <button
+            type="submit"
+            name="checkout"
+            class="w-full bg-[var(--btn-primary)] hover:bg-[var(--btn-primary-hover)] active:bg-[var(--btn-primary-active)] btn-solid mb-20">{{ "general.cart.checkout" | t }}</button>
+        </div>
+      </div>
+    </div>
+  {% endform %}
+
+
+{% else %}
+
+  <div class="flex justify-center items-center flex-col h-[60vh] w-screen">
+    <h1 class=" font-semi text-4xl md:text-6xl mb-10 ">{{ "general.cart.heading_empty_cart" | t }}</h1>
+    <a href="#" class="bg-[var(--btn-primary)] hover:bg-[var(--btn-primary-hover)] md:w-9/25 text-center active:bg-[var(--btn-primary-active)] btn-cart text-2xl whitespace-nowrap md:text-4xl">{{ "general.404.cta-1" | t }}</a>
+  </div>
+{% endif %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+  const cartRoot = document.getElementById('cart-root');
+  if (!cartRoot) return; // nothing to do if cart not present
+  
+  const currencyCode = cartRoot.dataset.currency || 'USD';
+  const itemsContainer = document.getElementById('cart-items-container');
+  const subtotalEl = document.getElementById('cart-estimated-total');
+  
+  // format money from Shopify (Shopify returns amounts in the smallest unit, e.g., cents/kobo)
+  function formatMoney(smallestUnitAmount) {
+    const amount = Number(smallestUnitAmount) / 100;
+    try {
+      return new Intl.NumberFormat(undefined, { style: 'currency', currency: currencyCode }).format(amount);
+    } catch (e) {
+      return amount.toFixed(2);
+    }
+  }
+  
+  // Show / hide spinner for a given line
+  function showSpinner(line) {
+    const s = document.getElementById(`spinner-${line}`);
+    if (s) s.classList.remove('hidden');
+  }
+  function hideSpinner(line) {
+    const s = document.getElementById(`spinner-${line}`);
+    if (s) s.classList.add('hidden');
+  }
+  
+  // Disable/enable controls on a line while an update is in-flight
+  function setControlsDisabled(line, disabled) {
+    const node = document.getElementById(`cart-item-${line}`);
+    if (!node) return;
+  
+    const input = node.querySelector(`#updates_${line}`);
+    if (input) input.disabled = !!disabled;
+  
+    // increment/decrement are divs — we disable pointer events and lower opacity
+    ['increment','decrement'].forEach(action => {
+      const btn = node.querySelector(`[data-action="${action}"]`);
+      if (!btn) return;
+      if (disabled) {
+        btn.setAttribute('aria-disabled', 'true');
+        btn.style.pointerEvents = 'none';
+        btn.style.opacity = '0.6';
+      } else {
+        btn.removeAttribute('aria-disabled');
+        btn.style.pointerEvents = '';
+        btn.style.opacity = '';
+      }
+    });
+  
+    const del = node.querySelector('[data-action="delete"]');
+    if (del) {
+      if (disabled) {
+        del.setAttribute('aria-disabled', 'true');
+        del.style.pointerEvents = 'none';
+        del.style.opacity = '0.6';
+      } else {
+        del.removeAttribute('aria-disabled');
+        del.style.pointerEvents = '';
+        del.style.opacity = '';
+      }
+    }
+  }
+  
+  // Reindex DOM items to match the newest cart.items returned by Shopify
+  function reindexDomFromCart(cartItems) {
+    // Build map: variant_id -> { item, newLine }
+    const map = {};
+    (cartItems || []).forEach((it, idx) => {
+      map[Number(it.variant_id)] = { item: it, newLine: idx + 1 };
+    });
+  
+    const domItems = Array.from(itemsContainer.querySelectorAll('[id^="cart-item-"]'));
+  
+    domItems.forEach(node => {
+      const domVariant = Number(node.dataset.variantId);
+      const entry = map[domVariant];
+  
+      if (entry) {
+        const newLine = entry.newLine;
+  
+        // update row id & data-line
+        node.dataset.line = newLine;
+        node.id = `cart-item-${newLine}`;
+  
+        // update the quantity input id, dataset and value
+        const input = node.querySelector('input[name="updates[]"]');
+        if (input) {
+          input.id = `updates_${newLine}`;
+          input.dataset.line = newLine;
+          input.value = entry.item.quantity;
+        }
+  
+        // update +/- buttons' data-line
+        const dec = node.querySelector('[data-action="decrement"]');
+        const inc = node.querySelector('[data-action="increment"]');
+        if (dec) dec.dataset.line = newLine;
+        if (inc) inc.dataset.line = newLine;
+  
+        // update delete link's data-line
+        const del = node.querySelector('[data-action="delete"]');
+        if (del) del.dataset.line = newLine;
+  
+        // update line price display
+        const linePriceEl = node.querySelector('.line-price');
+        if (linePriceEl) {
+          linePriceEl.id = `line-price-${newLine}`;
+          linePriceEl.textContent = formatMoney(entry.item.line_price);
+        }
+  
+        // update spinner id
+        const spinner = node.querySelector('.spinner');
+        if (spinner) spinner.id = `spinner-${newLine}`;
+  
+      } else {
+        // Variant no longer in cart (deleted) — remove DOM node
+        node.remove();
+      }
+    });
+  }
+  
+  // Central function that posts to /cart/change.js and updates the UI
+  async function updateLine(line, quantity) {
+    const node = document.getElementById(`cart-item-${line}`);
+    if (!node) return;
+  
+    try {
+      showSpinner(line);
+      setControlsDisabled(line, true);
+  
+      const body = new URLSearchParams();
+      body.append('line', String(line));
+      body.append('quantity', String(quantity));
+  
+      const res = await fetch('/cart/change.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+        body: body.toString()
+      });
+  
+      if (!res.ok) {
+        throw new Error(`Cart update failed: ${res.status}`);
+      }
+  
+      const cart = await res.json();
+  
+      // Reindex DOM to match cart.items returned from the server
+      reindexDomFromCart(cart.items || []);
+  
+      // Update subtotal display
+      if (subtotalEl) subtotalEl.textContent = formatMoney(cart.total_price);
+  
+    } catch (err) {
+      console.error('Cart update error', err);
+      // Replace with your toast/snackbar if you have one
+      alert('Could not update cart. Please try again.');
+    } finally {
+      // Hide spinner for the original line (if present) and re-enable controls for that line if it still exists
+      hideSpinner(line);
+      const stillThere = document.getElementById(`cart-item-${line}`);
+      if (stillThere) setControlsDisabled(line, false);
+    }
+  }
+  
+  // debounce helper
+  function debounce(fn, wait = 500) {
+    let t;
+    return (...args) => {
+      clearTimeout(t);
+      t = setTimeout(() => fn(...args), wait);
+    };
+  }
+  
+  // Click handler for + / - (event delegation)
+  itemsContainer.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-action="increment"], [data-action="decrement"]');
+    if (!btn) return;
+    e.preventDefault();
+  
+    const action = btn.dataset.action;
+    const line = Number(btn.dataset.line);
+    if (!line) return;
+  
+    const input = document.getElementById(`updates_${line}`);
+    if (!input) return;
+  
+    let qty = Number(input.value) || 0;
+    if (action === 'increment') qty = qty + 1;
+    if (action === 'decrement') qty = Math.max(1, qty - 1);
+  
+    updateLine(line, qty);
+  });
+  
+  
+  // Manual input (debounced)
+  itemsContainer.addEventListener('input', debounce((e) => {
+    const input = e.target.closest('input[name="updates[]"]');
+    if (!input) return;
+    const line = Number(input.dataset.line);
+    if (!line) return;
+    let qty = Number(input.value);
+    if (isNaN(qty) || qty < 1) qty = 1;
+    updateLine(line, qty);
+  }, 600));
+  
+  });
+</script>
+
+{% comment %} {% form 'cart'
+                                                      , cart
+                                                      , id: 'cart-form'
+                                                      , class: 'mt-1' %}
+                                                      <div class="flex flex-col w-[65vw] m-auto">
+                                                        <div class="bg-white mt-20 border-2 border-gray-100 p-5 rounded-xl shadow-lg">
+                                            
+                                                          {% for item in cart.items %}
+                                            
+                                                            <div class="flex justify-between items-center not-last:mb-10">
+                                                              <div class="flex space-x-10">
+                                                                <div class="">
+                                                                  {% if item.image %}
+                                                                    <img
+                                                                      class="object-cover border border-gray-300 rounded-md h-[7rem] w-[6rem]"
+                                                                      src="{{item.image |  image_url: width: 600 }}"
+                                                                      alt="{{ item.title | escape }}"
+                                                                      height="70"
+                                                                      width="60">
+                                                                  {% else %}
+                                                                    {{ "product-1" | placeholder_svg_tag: "w-30 h-40 object-cover border rounded-md " }}
+                                            
+                                                                  {% endif %}
+                                                                </div>
+                                                                <div class="flex flex-col justify-center items-center ">
+                                                                  <a href="{{item.url}}" class="inline-block font-semibold text-[var(--btn-primary)]">{{ item.product.title }}</a>
+                                                                  <span class="pl-5 font-semibold block">{{ item.variant.title }}</span>
+                                                                </div>
+                                                              </div>
+                                            
+                                                              <div class="flex flex-col justify-center items-center space-y-1 ">
+                                                                <div class="font-semibold">
+                                                                  <span>{{ item.price | money }}</span>
+                                                                </div>
+                                            
+                                                                <div class="flex justify-center items-center space-x-3 border border-gray-300 rounded-md overflow-hidden">
+                                                                  <div class="flex items-center px-2 py-1 bg-[var(--btn-primary)] cursor-pointer text-white">{% render "icon-minus" %}</div>
+                                            
+                                                                  <input
+                                                                    class="w-8 border-none focus:outline-none rounded-md text-center"
+                                                                    type="number"
+                                                                    name="updates[]"
+                                                                    min="1"
+                                                                    value="{{item.quantity}}"
+                                                                    id="updates_{{ forloop.index }}">
+                                            
+                                                                  <div class="flex items-center px-2 py-1 bg-[var(--btn-primary)] cursor-pointer text-white">{% render "icon-plus" %}</div>
+                                            
+                                                                </div>
+                                                              </div>
+                                            
+                                                              <div class="flex space-x-5">
+                                                                <div class=" font-semibold">
+                                                                  <span>{{ item.line_price | money }}</span>
+                                                                </div>
+                                                                <div>
+                                                                  <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0">{% render 'icon-delete' %}</a>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                            
+                                                          {% endfor %}
+                                            
+                                            
+                                                        </div>
+                                                        <div class="flex flex-col self-end mt-15 w-2/5">
+                                            
+                                                          <div class="">
+                                                            <h3 class="flex justify-between p-10 bg-white font-bold border border-gray-300 shadow-lg rounded-lg header-font text-3xl">
+                                                              <span class="inline-block">{{ "general.cart.subtotal" | t }}:</span>
+                                                              <span class="inline-block">{{ cart.total_price | money }}</span>
+                                                            </h3>
+                                                          </div>
+                                                          <div class="self-end">
+                                                            <button
+                                                              type="submit"
+                                                              name="checkout"
+                                                              class="bg-[var(--btn-primary)] hover:bg-[var(--btn-primary-hover)] active:bg-[var(--btn-primary-active)] btn-solid mb-20">{{ "general.cart.checkout" | t }}</button>
+                                                          </div>
+                                            
+                                                        </div>
+                                                      </div>
+                                            
+        {% endform %} {% endcomment %}

@@ -1,0 +1,116 @@
+<section class="pt-20 pb-20">
+
+  <div class="flex gap-x-30 w-[90vw] m-auto">
+    <div class="flex flex-col">
+      <div>
+        <p class="uppercase text-lg pb-2">{{ "general.img.follow_paragraph" | t }}</p>
+        <h3 class="header-font text-4xl">{{ "general.img.follow_bold" | t }}
+          <span class="italic uppercase">{{ "general.img.follow_slant" | t }}</span>
+        </h3>
+      </div>
+      <div class="pt-8">
+        <img
+          src="{{ "logo_img_background.jpg" |  asset_url }}"
+          alt=""
+          height=""
+          width=""
+          class="justify-self-center h-40 w-40">
+      </div>
+    </div>
+    <div class="flex gap-15">
+      {% if section.settings.image_1 %}
+        <img
+          src="{{ section.settings.image_1 | image_url: width: 800 }}"
+          alt=""
+          height=""
+          width=""
+          class="h-80 w-60 object-cover rounded">
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: "h-80 w-60 object-cover rounded border-2 border-gray-500" }}
+
+      {% endif %}
+      {% if section.settings.image_3 %}
+        <img
+          src="{{ section.settings.image_2 | image_url: width: 800 }}"
+          alt=""
+          height=""
+          width=""
+          class="h-80 w-60 object-cover rounded">
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: "h-80 w-60 object-cover rounded border-2 border-gray-500" }}
+
+      {% endif %}
+      {% if section.settings.image_3 %}
+        <img
+          src="{{ section.settings.image_3 | image_url: width: 800 }}"
+          alt=""
+          height=""
+          width=""
+          class="h-80 w-60 object-cover rounded">
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: "h-80 w-60 object-cover rounded border-2 border-gray-500" }}
+
+      {% endif %}
+      {% if section.settings.image_4 %}
+        <img
+          src="{{ section.settings.image_4 | image_url: width: 800 }}"
+          alt=""
+          height=""
+          width=""
+          class="h-80 w-60 object-cover rounded ">
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: "h-80 w-60 object-cover rounded border-2 border-gray-500" }}
+
+      {% endif %}
+      {% if section.settings.image_5 %}
+        <img
+          src="{{ section.settings.image_5 | image_url: width: 800 }}"
+          alt=""
+          height=""
+          width=""
+          class="h-80 w-60 object-cover rounded ">
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: "h-80 w-60 object-cover rounded border-2 border-gray-500" }}
+
+      {% endif %}
+
+    </div>
+  </div>
+
+</section>
+{% schema %}
+  {
+    "name": "Image Gallery",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image_1",
+        "label": "First image"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_2",
+        "label": "Second image"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_3",
+        "label": "Third image"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_4",
+        "label": "Fourth image"
+      }, {
+        "type": "image_picker",
+        "id": "image_5",
+        "label": "Fifth image"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image Gallery"
+      }
+    ]
+  }
+{% endschema %}

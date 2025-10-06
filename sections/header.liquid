@@ -1,0 +1,142 @@
+<header class="header-font">
+
+  <div class="hidden md:flex justify-between header-backgroud px-25 py-10 border-b border-gray-50 ">
+    <div class="">
+      <h1>
+        <a href="{{ shop.secure_url }}">{{ section.settings.menu_title }}</a>
+      </h1>
+    </div>
+
+    <ul class="flex space-x-[5rem]">
+      {% for link in linklists.main-menu-one.links %}
+
+        {% if link.links != blank %}
+          <li class="toggle-dropdown relative z-20">
+            <button class="cursor-pointer">{{ link.title }}</button>
+            <span class=" cursor-pointer">{% render "icon-chevron" %}</span>
+            <ul class="dropdown-menu header-backgroud z-20 space-y-3 opacity-0 pointer-events-none transition-all duration-300 border border-gray-50 rounded-md shadow-md absolute top-10 left-0 bg-white w-max px-10 py-5">
+              {% for childlink in link.links %}
+                <li>
+                  <a href="{{ childlink.url }}" class="whitespace-nowrap block">
+                    {{ childlink.title }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+
+          </li>
+        {% else %}
+          <li class="">
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          </li>
+
+        {% endif %}
+
+      {% endfor %}
+
+    </ul>
+
+    <div class="flex space-x-8">
+      <div class="">
+        <a href="{{ routes.search_url }}" class="">
+          {% render "icon-search" %}
+        </a>
+      </div>
+      <div class="">
+        <a href="{{ routes.account_login_url }}" class="">
+          {% render "icon-profiles" %}
+        </a>
+      </div>
+      <div class="">
+        <a href="{{ routes.cart_url }}" class="">
+          {% render "icon-cart" %}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {% comment %} MOBILE NAV {% endcomment %}
+
+  <nav class="header-backgroud flex justify-between items-center md:hidden border-b border-gray-50 p-5">
+    <div class="mobile-menu-icon w-1/4">
+      {% render "icon-hamburger" %}
+    </div>
+    <div class="mobile-menu-icon w-1/4 hidden">
+      {% render "icon-close" %}
+    </div>
+
+    <div class="grow text-center w-[12rem]">
+      <h1>
+        <a href="#">{{ section.settings.menu_title }}</a>
+      </h1>
+    </div>
+    <div class="flex space-x-5">
+      <div class="">
+        <a href="{{ routes.search_url }}" class="">
+          {% render "icon-search" %}
+        </a>
+      </div>
+      <div class="">
+        <a href="{{ routes.account_login_url }}" class="">
+          {% render "icon-profiles" %}
+        </a>
+      </div>
+      <div class="">
+        <a href="{{ routes.cart_url }}" class="">
+          {% render "icon-cart" %}
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MOBILE NAV ITEMS -->
+
+  <div class="toggler z-5 opacity-0 header-backgroud -translate-x-full block md:hidden fixed top-[5.1rem] left-0 h-full w-4/5 sm:w-3/5 border border-t-0 border-gray-50 py-20  pl-15 transform duration-300">
+    <nav class="">
+      <ul class="flex flex-col space-y-10 text-3xl">
+        {% for link in linklists.main-menu-one.links %}
+          {% if link.links != blank %}
+            <li class="toggle-mobile-dropdown">
+              <button class="cursor-pointer">
+                {{ link.title }}
+              </button>
+              <span class=" cursor-pointer">{% render "icon-chevron" %}</span>
+              <ul class="mobile-dropdown-menu z-20 h-0 opacity-0 pointer-events-none px-10 mt-3 border rounded-lg border-gray-50">
+                {% for sublink in link.links %}
+                  <li class="p-2">
+                    <a href="{{ sublink.url }}" class="whitespace-nowrap block">{{ sublink.title }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </li>
+
+          {% else %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endif %}
+
+        {% endfor %}
+
+      </ul>
+    </nav>
+  </div>
+
+</header>
+<div class="overlay hidden "></div>
+{% comment %} backdrop-blur-[3px] {% endcomment %}
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "text",
+        "id": "menu_title",
+        "label": "Title",
+        "default": "Menu",
+        "info": "Store name"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,23 @@
+<div class="w-[23%] max-h-[45rem] overflow-hidden rounded-lg">
+  <a href="{{ collection.url }}">
+    <div class="overflow-hidden">
+      {% if collection.featured_image != blank %}
+        {% assign collection_image = collection.featured_image %}
+      {% else %}
+        {% assign collection_image = collection.products.first.image %}
+      {% endif %}
+      <img
+        src="{{ collection_image |  image_url: width:  900 }}"
+        alt=""
+        height=""
+        width=""
+        class="w-full h-[35rem] object-cover hover:scale-110 duration-300">
+    </div>
+    <div class="py-5">
+      {% comment %} <a href="{{ collection.url }}" class=""> {% endcomment %}
+      <h3 class=" flex items-center gap-x-2 uppercase font-semibold header-font text-2xl text-[var(--btn-primary)]">{{ collection.title | link_to: collection.url }} {% render "icon-arrow" %}</h3>
+    {% comment %} </a> {% endcomment %}
+
+    </div>
+  </a>
+</div>

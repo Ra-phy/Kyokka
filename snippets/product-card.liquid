@@ -1,0 +1,35 @@
+<div class="sm:w-[50%] lg:w-[30%] xl:w-[22%] max-h-[45rem] overflow-hidden rounded-lg">
+  <div class="">
+    <a href="{{ product.url }}">
+      {% if product.featured_image %}
+        <div class="overflow-hidden">
+          <img
+            src="{{ product.featured_image | image_url: width: 800 }}"
+            alt="{{ product.featured_image.alt |  default: product.title }}"
+            loading="lazy"
+            height=""
+            width=""
+            class="w-full h-[30rem] object-cover hover:scale-110 duration-300">
+        </div>
+      {% else %}
+        {{ "product-1" | placeholder_svg_tag: "w-full object-cover" }}
+      {% endif %}
+
+    </a>
+  </div>
+  <div class="px-3 py-1">
+    <div class="">
+      <p class="font-semibold header-font text-[var(--btn-primary)]">
+        <a href="{{ product.url }}" class="flex items-center gap-x-2">
+          {{ product.title }} {% render "icon-arrow" %}</a>
+      </p>
+      <span class="text-sm ">
+        {{ product.vendor }}
+      </span>
+    </div>
+    <div class="flex justify-between px-5 py-3 mt-10 mb-5 whitespace-nowrap text-white rounded-lg product-card bg-[var(--btn-primary)] hover:bg-[var(--btn-primary-hover)] active:bg-[var(--btn-primary-active)]  duration-300">
+      <p class="text-md">{{ product.selected_or_first_available_variant.price | money }}</p>
+      <a href="#" class="font-semibold text-xl">{{ "general.cart.add" | t }}</a>
+    </div>
+  </div>
+</div>

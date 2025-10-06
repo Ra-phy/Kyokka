@@ -1,0 +1,28 @@
+{
+  "sections": {
+    "hero": {
+      "type": "image-banner"
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {
+        "featured_collection": "frontpage"
+      }
+    },
+    "list-featured-collection": {
+      "type": "featured-list-collection",
+      "settings": {
+        "featured_list_collection": []
+      }
+    },
+    "image-gallery": {
+      "type": "image-gallery"
+    }
+  },
+  "order": [
+    "hero",
+    "list-featured-collection",
+    "featured-collection",
+    "image-gallery"
+  ]
+}

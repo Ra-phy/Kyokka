@@ -1,0 +1,75 @@
+<section>
+  {% if section.settings.image_banner != blank %}
+    <div
+      class="relative h-[100vh] w-full bg-center bg-cover overflow-hidden"
+      style="background-image: url('{{ section.settings.image_banner | image_url: width : 1200 }}');"
+      height="1000"
+      width="1200"
+      loading="lazy">
+      {% if section.settings.show_div %}
+        <div class="custom absolute top-25 left-20 header-font text-white">
+          <h1 class="uppercase text-7xl leading-normal tracking-wide">
+            <span class="block">unique</span>
+            <span class="block">
+              <span class="italic ">and</span>
+              authentic</span>
+            <span class="block">vintage
+              <span class="italic">designer</span>
+            </span>
+            <span class="block ">jewellery</span>
+          </h1>
+          <p class="uppercase font pt-5 text-xl ">now available at the kyokka</p>
+          <a href="{{ routes.collections_url }}" class="p-5 border-2 border-white inline-block rounded-md font uppercase mt-10 hover:scale-102  hover:-translate-y-[2.5px] hover:shadow-xl active:translate-y-[0.5px] active:shadow-md duration-300">discover the collection</a>
+        </div>
+      {% endif %}
+      {% if section.settings.show_div_2 %}
+        <div class="custom absolute bottom-20 left-20 header-font text-white">
+          <h1 class="uppercase text-7xl leading-normal tracking-wide">
+            <span class="block">find our premium range
+            </span>
+            <span class="block">unique collection</span>
+          </h1>
+          <p class="uppercase font pt-5 text-xl ">now available at the kyokka</p>
+          <a href="{{ routes.collections_url }}" class="p-5 border-2 border-white inline-block rounded-md font uppercase mt-10 hover:scale-102  hover:-translate-y-[2.5px] hover:shadow-xl active:translate-y-[0.5px] active:shadow-md duration-300">discover the collection</a>
+        </div>
+      {% endif %}
+
+    </div>
+  {% else %}
+    <div
+      class="relative h-[100vh] w-full bg-center bg-cover overflow-hidden"
+      height="1000"
+      width="1200">
+      {{ "collection-1" | placeholder_svg_tag }}
+    </div>
+  {% endif %}
+
+</section>
+
+{% schema %}
+  {
+    "name": "Image Banner",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image_banner",
+        "label": "Image banner"
+      }, {
+        "type": "checkbox",
+        "id": "show_div",
+        "label": "Show content",
+        "default": true
+      }, {
+        "type": "checkbox",
+        "id": "show_div_2",
+        "label": "Show second content",
+        "default": false
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image Banner"
+      }
+    ]
+  }
+{% endschema %}

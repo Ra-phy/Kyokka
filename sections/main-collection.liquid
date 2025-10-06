@@ -1,0 +1,15 @@
+<section>
+  <div class="text-6xl pt-25 pb-10 header-font text-center uppercase">
+    <h1>{{ collection.title }}</h1>
+  </div>
+  <div class="flex flex-wrap gap-y-15 gap-x-18 w-[90vw] h-auto mx-auto mt-10">
+    {% for product in collection.products %}
+
+      {% render "product-card"
+        , product: product %}
+
+    {% else %}
+      <p>There is no product inside this collection</p>
+    {% endfor %}
+  </div>
+</section>
