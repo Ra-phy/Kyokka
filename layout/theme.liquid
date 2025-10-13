@@ -21,5 +21,7 @@
   <body class="bg-[var(--color-bg)] text-2xl font overflow-x-hidden">
     {% section 'header' %}
     <main role="main">{{ content_for_layout }}</main>
+    {% section 'footer' %}
+    {{ content_for_footer }}
   </body>
 </html>
