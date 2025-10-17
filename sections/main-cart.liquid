@@ -24,7 +24,7 @@
             data-line="{{ forloop.index }}"
             data-variant-id="{{ item.variant_id }}">
 
-            <div class="flex space-x-10">
+            <div class="flex space-x-10 w-4/10">
               <div class="">
                 {% if item.image %}
                   <img
@@ -44,7 +44,7 @@
               </div>
             </div>
 
-            <div class="flex flex-col justify-center items-center space-y-1 ">
+            <div class="flex flex-col justify-center items-center space-y-1 w-3/10">
               <div class="font-semibold">
                 <!-- no styling changed; id added so JS can reference the unit price if needed -->
                 <span id="unit-price-{{ forloop.index }}">{{ item.price | money }}</span>
@@ -88,7 +88,7 @@
               </div>
             </div>
 
-            <div class="flex space-x-5">
+            <div class="flex space-x-5 w-3/10 justify-end">
               <div class=" font-semibold">
                 <!-- line price: id and class added so JS can update it -->
                 <span id="line-price-{{ forloop.index }}" class="line-price">{{ item.line_price | money }}</span>
@@ -372,86 +372,86 @@
 
 
 {% comment %} {% form 'cart'
-                                                        , cart
-                                                        , id: 'cart-form'
-                                                        , class: 'mt-1' %}
-                                                        <div class="flex flex-col w-[65vw] m-auto">
-                                                          <div class="bg-white mt-20 border-2 border-gray-100 p-5 rounded-xl shadow-lg">
-                                              
-                                                            {% for item in cart.items %}
-                                              
-                                                              <div class="flex justify-between items-center not-last:mb-10">
-                                                                <div class="flex space-x-10">
-                                                                  <div class="">
-                                                                    {% if item.image %}
-                                                                      <img
-                                                                        class="object-cover border border-gray-300 rounded-md h-[7rem] w-[6rem]"
-                                                                        src="{{item.image |  image_url: width: 600 }}"
-                                                                        alt="{{ item.title | escape }}"
-                                                                        height="70"
-                                                                        width="60">
-                                                                    {% else %}
-                                                                      {{ "product-1" | placeholder_svg_tag: "w-30 h-40 object-cover border rounded-md " }}
-                                              
-                                                                    {% endif %}
+                                                                , cart
+                                                                , id: 'cart-form'
+                                                                , class: 'mt-1' %}
+                                                                <div class="flex flex-col w-[65vw] m-auto">
+                                                                  <div class="bg-white mt-20 border-2 border-gray-100 p-5 rounded-xl shadow-lg">
+                                                      
+                                                                    {% for item in cart.items %}
+                                                      
+                                                                      <div class="flex justify-between items-center not-last:mb-10">
+                                                                        <div class="flex space-x-10">
+                                                                          <div class="">
+                                                                            {% if item.image %}
+                                                                              <img
+                                                                                class="object-cover border border-gray-300 rounded-md h-[7rem] w-[6rem]"
+                                                                                src="{{item.image |  image_url: width: 600 }}"
+                                                                                alt="{{ item.title | escape }}"
+                                                                                height="70"
+                                                                                width="60">
+                                                                            {% else %}
+                                                                              {{ "product-1" | placeholder_svg_tag: "w-30 h-40 object-cover border rounded-md " }}
+                                                      
+                                                                            {% endif %}
+                                                                          </div>
+                                                                          <div class="flex flex-col justify-center items-center ">
+                                                                            <a href="{{item.url}}" class="inline-block font-semibold text-[var(--btn-primary)]">{{ item.product.title }}</a>
+                                                                            <span class="pl-5 font-semibold block">{{ item.variant.title }}</span>
+                                                                          </div>
+                                                                        </div>
+                                                      
+                                                                        <div class="flex flex-col justify-center items-center space-y-1 ">
+                                                                          <div class="font-semibold">
+                                                                            <span>{{ item.price | money }}</span>
+                                                                          </div>
+                                                      
+                                                                          <div class="flex justify-center items-center space-x-3 border border-gray-300 rounded-md overflow-hidden">
+                                                                            <div class="flex items-center px-2 py-1 bg-[var(--btn-primary)] cursor-pointer text-white">{% render "icon-minus" %}</div>
+                                                      
+                                                                            <input
+                                                                              class="w-8 border-none focus:outline-none rounded-md text-center"
+                                                                              type="number"
+                                                                              name="updates[]"
+                                                                              min="1"
+                                                                              value="{{item.quantity}}"
+                                                                              id="updates_{{ forloop.index }}">
+                                                      
+                                                                            <div class="flex items-center px-2 py-1 bg-[var(--btn-primary)] cursor-pointer text-white">{% render "icon-plus" %}</div>
+                                                      
+                                                                          </div>
+                                                                        </div>
+                                                      
+                                                                        <div class="flex space-x-5">
+                                                                          <div class=" font-semibold">
+                                                                            <span>{{ item.line_price | money }}</span>
+                                                                          </div>
+                                                                          <div>
+                                                                            <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0">{% render 'icon-delete' %}</a>
+                                                                          </div>
+                                                                        </div>
+                                                                      </div>
+                                                      
+                                                                    {% endfor %}
+                                                      
+                                                      
                                                                   </div>
-                                                                  <div class="flex flex-col justify-center items-center ">
-                                                                    <a href="{{item.url}}" class="inline-block font-semibold text-[var(--btn-primary)]">{{ item.product.title }}</a>
-                                                                    <span class="pl-5 font-semibold block">{{ item.variant.title }}</span>
+                                                                  <div class="flex flex-col self-end mt-15 w-2/5">
+                                                      
+                                                                    <div class="">
+                                                                      <h3 class="flex justify-between p-10 bg-white font-bold border border-gray-300 shadow-lg rounded-lg header-font text-3xl">
+                                                                        <span class="inline-block">{{ "general.cart.subtotal" | t }}:</span>
+                                                                        <span class="inline-block">{{ cart.total_price | money }}</span>
+                                                                      </h3>
+                                                                    </div>
+                                                                    <div class="self-end">
+                                                                      <button
+                                                                        type="submit"
+                                                                        name="checkout"
+                                                                        class="bg-[var(--btn-primary)] hover:bg-[var(--btn-primary-hover)] active:bg-[var(--btn-primary-active)] btn-solid mb-20">{{ "general.cart.checkout" | t }}</button>
+                                                                    </div>
+                                                      
                                                                   </div>
                                                                 </div>
-                                              
-                                                                <div class="flex flex-col justify-center items-center space-y-1 ">
-                                                                  <div class="font-semibold">
-                                                                    <span>{{ item.price | money }}</span>
-                                                                  </div>
-                                              
-                                                                  <div class="flex justify-center items-center space-x-3 border border-gray-300 rounded-md overflow-hidden">
-                                                                    <div class="flex items-center px-2 py-1 bg-[var(--btn-primary)] cursor-pointer text-white">{% render "icon-minus" %}</div>
-                                              
-                                                                    <input
-                                                                      class="w-8 border-none focus:outline-none rounded-md text-center"
-                                                                      type="number"
-                                                                      name="updates[]"
-                                                                      min="1"
-                                                                      value="{{item.quantity}}"
-                                                                      id="updates_{{ forloop.index }}">
-                                              
-                                                                    <div class="flex items-center px-2 py-1 bg-[var(--btn-primary)] cursor-pointer text-white">{% render "icon-plus" %}</div>
-                                              
-                                                                  </div>
-                                                                </div>
-                                              
-                                                                <div class="flex space-x-5">
-                                                                  <div class=" font-semibold">
-                                                                    <span>{{ item.line_price | money }}</span>
-                                                                  </div>
-                                                                  <div>
-                                                                    <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0">{% render 'icon-delete' %}</a>
-                                                                  </div>
-                                                                </div>
-                                                              </div>
-                                              
-                                                            {% endfor %}
-                                              
-                                              
-                                                          </div>
-                                                          <div class="flex flex-col self-end mt-15 w-2/5">
-                                              
-                                                            <div class="">
-                                                              <h3 class="flex justify-between p-10 bg-white font-bold border border-gray-300 shadow-lg rounded-lg header-font text-3xl">
-                                                                <span class="inline-block">{{ "general.cart.subtotal" | t }}:</span>
-                                                                <span class="inline-block">{{ cart.total_price | money }}</span>
-                                                              </h3>
-                                                            </div>
-                                                            <div class="self-end">
-                                                              <button
-                                                                type="submit"
-                                                                name="checkout"
-                                                                class="bg-[var(--btn-primary)] hover:bg-[var(--btn-primary-hover)] active:bg-[var(--btn-primary-active)] btn-solid mb-20">{{ "general.cart.checkout" | t }}</button>
-                                                            </div>
-                                              
-                                                          </div>
-                                                        </div>
-                                              
+                                                      
         {% endform %} {% endcomment %}

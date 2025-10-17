@@ -25,6 +25,12 @@
       "follow_paragraph": "Follow us on",
       "follow_bold": "Kyokka",
       "follow_slant": "on ig"
+    },
+    "product": {
+      "disable": "disabled",
+      "sold_out": "Sold out",
+      "add_to_cart": "Add to cart",
+      "checkout": "Checkout"
     }
   }
 }
