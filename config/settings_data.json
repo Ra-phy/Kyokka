@@ -19,7 +19,9 @@
       },
       "footer": {
         "type": "footer",
-        "settings": {}
+        "settings": {
+          "logo": "shopify://shop_images/kyokka_logo.png"
+        }
       }
     },
     "content_for_index": []
