@@ -38,6 +38,15 @@
         "product_range": 4
       }
     },
+    "image_banner_CBaett": {
+      "type": "image-banner",
+      "name": "Image Banner",
+      "settings": {
+        "image_banner": "shopify://shop_images/banner_2.png",
+        "show_div": false,
+        "show_div_2": true
+      }
+    },
     "image-gallery": {
       "type": "image-gallery",
       "settings": {
@@ -53,6 +62,7 @@
     "hero",
     "list-featured-collection",
     "featured-collection",
+    "image_banner_CBaett",
     "image-gallery"
   ]
 }
