@@ -1,3 +1,104 @@
-<div>
-  lets do this
-</div>
+<section>
+  <div class="header-backgroud px-60 pb-10 mt-40">
+    <div class="flex flex-col items-center space-y-15">
+      <div class="">
+        <a href="{{ routes.root_url }}" class="header-font flex space-x-3 justify-center items-center ">
+          {% if section.settings.logo != blank %}
+            <img
+              src="{{ section.settings.logo | image_url: width: 50 }}"
+              alt="{{ shop.name }}"
+              height=""
+              width=""
+              class="h-auto w-auto">
+            <h3 class="text-6xl">Kyokka</h3>
+          {% else %}
+            <span class="text-2xl font-bold">{{ shop.name }}</span>
+          {% endif %}
+        </a>
+      </div>
+      <div class="flex flex-col space-y-5 items-center">
+        <div>
+          <p class="uppercase italic text-gray-500">Follow us on</p>
+        </div>
+        <div class="flex space-x-7">
+          <a href="#" class="inline-block">
+            <i class="fa-brands fa-square-instagram text-4xl"></i>
+          </a>
+
+          <a href="#" class="inline-block">
+            <i class="fa-brands fa-square-facebook text-4xl"></i>
+          </a>
+          <a href="#" class="inline-block">
+            <i class="fa-brands fa-square-x-twitter text-4xl"></i>
+          </a>
+          <a href="#" class="inline-block">
+            <i class="fa-brands fa-square-youtube text-4xl"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-between text-gray-500 pt-30">
+      <div class="">
+        <h3 class="uppercase text-black font-semibold header-font mb-10 text-xl">Shop</h3>
+        <ul class="flex flex-col space-y-5 text-lg">
+          <li>New arrival</li>
+          <li>Shop by category</li>
+          <li>Shop by collection</li>
+          <li>Gift</li>
+        </ul>
+      </div>
+      <div class="">
+        <h3 class="uppercase text-black font-semibold header-font mb-10 text-xl">Who we are</h3>
+        <ul class="flex flex-col space-y-5 text-lg">
+          <li>About our brand</li>
+          <li>News</li>
+          <l1>Coorporation information</l1>
+          <l1>Contact us</l1>
+        </ul>
+      </div>
+      <div class="">
+        <h3 class="uppercase text-black font-semibold header-font mb-10 text-xl">customer service</h3>
+        <ul class="flex flex-col space-y-5 text-lg">
+          <li>Appointment</li>
+          <li>Shipping</li>
+          <li>Exchange and Return</li>
+          <li>Size guide</li>
+          <li>Store locator</li>
+          <li class="uppercase ">faq</li>
+        </ul>
+      </div>
+      <div class="">
+        <h3 class="uppercase text-black font-semibold header-font mb-10 text-xl">Product care</h3>
+        <ul class="flex flex-col space-y-5 text-lg">
+          <li>Maintenance</li>
+          <li>Jewellery core</li>
+        </ul>
+      </div>
+      <div class="">
+        <h3 class="uppercase text-black font-semibold header-font mb-10 text-xl">Other</h3>
+        <ul class="flex flex-col space-y-5 text-lg">
+          <li>Terms & Coditions</li>
+          <li>Privacy Policy</li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="text-gray-500 mt-20">
+      <p class="text-center text-lg ">&copy; 2025, KYOKKA</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Store logo"
+      }
+    ]
+  }
+
+{% endschema %}

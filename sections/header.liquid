@@ -1,23 +1,33 @@
 <header class="header-font">
 
-  <div class="hidden md:flex justify-between header-backgroud px-25 py-10 border-b border-gray-50 ">
+  <div class="hidden md:flex justify-between items-center header-backgroud px-25 py-10 border-b border-gray-50 ">
     <div class="">
-      <h1>
-        <a href="{{ shop.secure_url }}">{{ section.settings.menu_title }}</a>
-      </h1>
+      <a href="{{ routes.root_url }}" class="header-font flex space-x-3 justify-center items-center ">
+        {% if section.settings.logo != blank %}
+          <img
+            src="{{ section.settings.logo | image_url: width: 30 }}"
+            alt="{{ shop.name }}"
+            height=""
+            width=""
+            class="h-auto w-auto">
+          <h3 class="text-3xl">Kyokka</h3>
+        {% else %}
+          <span class="text-2xl font-bold">{{ shop.name }}</span>
+        {% endif %}
+      </a>
     </div>
 
-    <ul class="flex space-x-[5rem]">
+    <ul class="flex space-x-[5rem] ">
       {% for link in linklists.main-menu-one.links %}
 
         {% if link.links != blank %}
-          <li class="toggle-dropdown relative z-20">
+          <li class="toggle-dropdown z-20 hover-underline-animation relative">
             <button class="cursor-pointer">{{ link.title }}</button>
             <span class=" cursor-pointer">{% render "icon-chevron" %}</span>
             <ul class="dropdown-menu header-backgroud z-20 space-y-3 opacity-0 pointer-events-none transition-all duration-300 border border-gray-50 rounded-md shadow-md absolute top-10 left-0 bg-white w-max px-10 py-5">
               {% for childlink in link.links %}
-                <li>
-                  <a href="{{ childlink.url }}" class="whitespace-nowrap block">
+                <li class="px-3 py-2 rounded-md transition-colors duration-200 hover:bg-[#C8E3D7]">
+                  <a href="{{ childlink.url }}" class="whitespace-nowrap ">
                     {{ childlink.title }}
                   </a>
                 </li>
@@ -26,8 +36,8 @@
 
           </li>
         {% else %}
-          <li class="">
-            <a href="{{ link.url }}">{{ link.title }}</a>
+          <li class="hover-underline-animation relative">
+            <a href="{{ link.url }}" class="{% if link.active %} text-black font-semibold{% endif %} duration-75">{{ link.title }}</a>
           </li>
 
         {% endif %}
@@ -37,17 +47,17 @@
     </ul>
 
     <div class="flex space-x-8">
-      <div class="">
+      <div class="hover-underline-animation relative">
         <a href="{{ routes.search_url }}" class="">
           {% render "icon-search" %}
         </a>
       </div>
-      <div class="">
+      <div class="hover-underline-animation relative">
         <a href="{{ routes.account_login_url }}" class="">
           {% render "icon-profiles" %}
         </a>
       </div>
-      <div class="">
+      <div class="hover-underline-animation relative">
         <a href="{{ routes.cart_url }}" class="">
           {% render "icon-cart" %}
         </a>
@@ -136,7 +146,12 @@
         "label": "Title",
         "default": "Menu",
         "info": "Store name"
+      }, {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Store logo"
       }
+
     ]
   }
 {% endschema %}
