@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <!-- Google Tag Manager -->
+
     <script>
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -9,6 +10,18 @@
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','GTM-TDHD2HLP');
     </script>
+    <script>
+        window.addEventListener('message', function(event) {
+          if (!event.origin.endsWith('.shopify.com') && !event.origin.endsWith('.myshopify.com')) {
+      return;
+          }
+          
+          if (event.data && event.data.event) {
+      window.dataLayer.push(event.data);
+          }
+        });
+    </script>
+
     <!-- End Google Tag Manager -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
