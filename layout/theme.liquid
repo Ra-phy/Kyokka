@@ -15,7 +15,7 @@
           if (!event.origin.endsWith('.shopify.com') && !event.origin.endsWith('.myshopify.com')) {
       return;
           }
-          
+          console.log('THEME LISTENER: Heard a message!', event.data);
           if (event.data && event.data.event) {
       window.dataLayer.push(event.data);
           }
